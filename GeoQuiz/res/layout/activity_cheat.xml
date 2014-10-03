@@ -10,16 +10,17 @@
         android:layout_height="wrap_content"
         android:padding="24dp"
         android:text="@string/warning_text" />
-    
-    <TextView 
+
+    <TextView
+        android:id="@+id/answerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp" />
-    
-    <Button 
+
+    <Button
         android:id="@+id/showAnswerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/show_answer_button"/>
+        android:text="@string/show_answer_button" />
 
 </LinearLayout>
