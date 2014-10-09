@@ -1,7 +1,6 @@
 package com.sudhirkhanger.android.criminalintent;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -67,10 +66,5 @@ public class CrimeFragment extends Fragment {
 				});
 
 		return v;
-	}
-
-	private String humanReadableDate(Date date) {
-		String result = "";
-		return result;
 	}
 }
