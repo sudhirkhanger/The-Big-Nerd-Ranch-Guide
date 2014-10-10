@@ -13,7 +13,6 @@ public class CrimeListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		getActivity().setTitle(R.string.crimes_title);
 		mCrimes = CrimeLab.get(getActivity()).getCrimes();
-		
 	}
 
 }
