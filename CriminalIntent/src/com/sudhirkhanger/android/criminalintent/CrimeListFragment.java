@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 public class CrimeListFragment extends ListFragment {
 	private ArrayList<Crime> mCrimes;
-	private static final String TAG = "CrimeListFragment";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,4 +63,11 @@ public class CrimeListFragment extends ListFragment {
 		}
 
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		((CrimeAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
 }
