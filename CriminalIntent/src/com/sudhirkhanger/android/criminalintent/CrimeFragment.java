@@ -1,5 +1,7 @@
 package com.sudhirkhanger.android.criminalintent;
 
+/* Sudhir Khanger */
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.UUID;
