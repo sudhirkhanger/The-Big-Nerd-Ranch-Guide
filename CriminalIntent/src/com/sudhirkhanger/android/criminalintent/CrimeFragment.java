@@ -1,13 +1,12 @@
 package com.sudhirkhanger.android.criminalintent;
 
-/* Sudhir Khanger */
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.UUID;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -26,13 +25,13 @@ public class CrimeFragment extends Fragment {
 	private CheckBox mSolvedCheckBox;
 	private static final String TAG = "CriminalFragment";
 	public static final String EXTRA_CRIME_ID = "com.sudhirkhanger.android.criminalintent.crime_id";
+	private static final String DIALOG_DATE = "date";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-
 	}
 
 	@Override
@@ -62,7 +61,15 @@ public class CrimeFragment extends Fragment {
 		// Challenge: Formatting the Date pg 166
 		mDateButton.setText((new SimpleDateFormat("EEEE, dd MMM yyyy",
 				Locale.US).format(mCrime.getDate())));
-		mDateButton.setEnabled(false);
+		mDateButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				DatePickerFragment dialog = DatePickerFragment
+						.newInstance(mCrime.getDate());
+				dialog.show(fm, DIALOG_DATE);
+			}
+		});
+
 		mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);
 		mSolvedCheckBox.setChecked(mCrime.isSolved());
 		mSolvedCheckBox
