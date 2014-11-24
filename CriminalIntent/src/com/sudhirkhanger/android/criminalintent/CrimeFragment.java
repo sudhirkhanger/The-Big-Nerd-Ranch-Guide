@@ -64,9 +64,6 @@ public class CrimeFragment extends Fragment {
 		});
 
 		mDateButton = (Button) v.findViewById(R.id.crime_date);
-		// Challenge: Formatting the Date pg 166
-		// mDateButton.setText((new SimpleDateFormat("EEEE, dd MMM yyyy",
-		// Locale.US).format(mCrime.getDate())));
 		updateDate();
 		mDateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
