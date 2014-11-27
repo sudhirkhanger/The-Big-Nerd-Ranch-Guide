@@ -1,5 +1,6 @@
 package com.sudhirkhanger.android.criminalintent;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,10 +24,12 @@ public class CrimeFragment extends Fragment {
 	private Crime mCrime;
 	private EditText mTitleField;
 	private Button mDateButton;
+	private Button mTimeButton;
 	private CheckBox mSolvedCheckBox;
 	private static final String TAG = "CriminalFragment";
 	public static final String EXTRA_CRIME_ID = "com.sudhirkhanger.android.criminalintent.crime_id";
 	private static final String DIALOG_DATE = "date";
+	private static final String DIALOG_TIME = "time";
 	private static final int REQUEST_DATE = 0;
 
 	@Override
@@ -38,6 +41,19 @@ public class CrimeFragment extends Fragment {
 
 	private void updateDate() {
 		mDateButton.setText(mCrime.getDate().toString());
+	}
+
+	private void updateTime() {
+		final Calendar c = Calendar.getInstance();
+		int hour = c.get(Calendar.HOUR);
+		int minute = c.get(Calendar.MINUTE);
+		String period;
+		if (c.AM_PM == 0) {
+			period = "AM";
+		} else {
+			period = "PM";
+		}
+		mTimeButton.setText(hour + ":" + minute + " " + period);
 	}
 
 	@Override
@@ -72,6 +88,16 @@ public class CrimeFragment extends Fragment {
 						.newInstance(mCrime.getDate());
 				dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
 				dialog.show(fm, DIALOG_DATE);
+			}
+		});
+
+		mTimeButton = (Button) v.findViewById(R.id.crime_time);
+		updateTime();
+		mTimeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				TimePickerFragment dialog = new TimePickerFragment();
+				dialog.show(fm, DIALOG_TIME);
 			}
 		});
 
