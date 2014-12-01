@@ -3,5 +3,6 @@
     android:id="@+id/dialog_date_datePicker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:calendarViewShown="false" >
+    android:calendarViewShown="false"
+    android:datePickerMode="spinner" >
 </DatePicker>
