@@ -29,4 +29,13 @@ public class AudioPlayer {
 
 	}
 
+	public void pause(Context c) {
+		if (mPlayer != null) {
+			if (mPlayer.isPlaying()) {
+				mPlayer.pause();
+			} else {
+				mPlayer.start();
+			}
+		}
+	}
 }
