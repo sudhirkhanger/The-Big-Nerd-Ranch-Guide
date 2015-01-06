@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:com.sudhirkhanger.app.criminalintent="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_new_crime"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/new_crime"
+        com.sudhirkhanger.app.criminalintent:showAsAction="ifRoom|withText" />
+
+</menu>
