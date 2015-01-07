@@ -26,17 +26,26 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
+    public static final String EXTRA_CRIME_ID = "com.sudhirkhanger.app.criminalintent.crime_id";
+    private static final String TAG = "CriminalFragment";
+    private static final String DIALOG_DATE = "date";
+    private static final String DIALOG_TIME = "time";
+    private static final int REQUEST_DATE = 0;
+    private static final int REQUEST_TIME = 1;
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
     private Button mTimeButton;
     private CheckBox mSolvedCheckBox;
-    private static final String TAG = "CriminalFragment";
-    public static final String EXTRA_CRIME_ID = "com.sudhirkhanger.app.criminalintent.crime_id";
-    private static final String DIALOG_DATE = "date";
-    private static final String DIALOG_TIME = "time";
-    private static final int REQUEST_DATE = 0;
-    private static final int REQUEST_TIME = 1;
+
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,14 +71,10 @@ public class CrimeFragment extends Fragment {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             if (NavUtils.getParentActivityName(getActivity()) != null) {
-              //  getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+                // http://forums.bignerdranch.com/viewtopic.php?f=416&t=7919
                 ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
-
-
-        // http://forums.bignerdranch.com/viewtopic.php?f=416&t=7919
-        //((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
@@ -125,15 +130,6 @@ public class CrimeFragment extends Fragment {
         return v;
     }
 
-    public static CrimeFragment newInstance(UUID crimeId) {
-        Bundle args = new Bundle();
-        args.putSerializable(EXTRA_CRIME_ID, crimeId);
-
-        CrimeFragment fragment = new CrimeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK)
@@ -163,5 +159,12 @@ public class CrimeFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
+    }
+
 
 }
