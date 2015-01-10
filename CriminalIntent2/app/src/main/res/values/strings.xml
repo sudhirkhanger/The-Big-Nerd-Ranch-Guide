@@ -18,4 +18,6 @@
     <string name="crime_title">Crime Title</string>
     <string name="crime_date">Crime Date</string>
     <string name="no_data">There are no records</string>
+    <string name="take">Take!</string>
+
 </resources>
