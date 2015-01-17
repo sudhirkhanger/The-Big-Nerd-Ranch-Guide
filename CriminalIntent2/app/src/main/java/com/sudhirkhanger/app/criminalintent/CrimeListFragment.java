@@ -1,6 +1,7 @@
 package com.sudhirkhanger.app.criminalintent;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,19 @@ import java.util.ArrayList;
 public class CrimeListFragment extends ListFragment {
     private ArrayList<Crime> mCrimes;
     private boolean mSubtitleVisible;
+    private Callbacks mCallbacks;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,11 +123,7 @@ public class CrimeListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Crime c = ((CrimeAdapter) getListAdapter()).getItem(position);
-
-        // Start CrimeActivity
-        Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, c.getId());
-        startActivity(i);
+        mCallbacks.onCrimeSelected(c);
     }
 
     @Override
@@ -149,9 +159,11 @@ public class CrimeListFragment extends ListFragment {
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent i = new Intent(getActivity(), CrimePagerActivity.class);
+                /*Intent i = new Intent(getActivity(), CrimePagerActivity.class);
                 i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-                startActivityForResult(i, 0);
+                startActivityForResult(i, 0);*/
+                ((CrimeAdapter) getListAdapter()).notifyDataSetChanged();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_show_subtitle:
                 if (((ActionBarActivity) getActivity()).getSupportActionBar().getSubtitle() == null) {
@@ -190,6 +202,13 @@ public class CrimeListFragment extends ListFragment {
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * Required interface for hosting activities.
+     */
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+
     private class CrimeAdapter extends ArrayAdapter<Crime> {
         public CrimeAdapter(ArrayList<Crime> crimes) {
             super(getActivity(), 0, crimes);
@@ -215,6 +234,10 @@ public class CrimeListFragment extends ListFragment {
             solvedCheckBox.setChecked(c.isSolved());
             return convertView;
         }
+    }
+
+    public void updateUI() {
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
 }
