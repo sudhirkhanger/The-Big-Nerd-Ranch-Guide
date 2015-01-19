@@ -18,7 +18,7 @@ import java.net.URL;
  */
 public class FlickrFetchr {
     public static final String TAG = "FlickrFetchr";
-    private static final String ENDPOINT = "http://api.flickr.com/services/rest/";
+    private static final String ENDPOINT = "https://api.flickr.com/services/rest/";
     private static final String API_KEY = "5f2b8cac0b7e6b081be1f335c7c98a01";
     private static final String METHOD_GET_RECENT = "flickr.photos.getRecent";
     private static final String PARAM_EXTRAS = "extras";
