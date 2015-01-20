@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:com.sudhirkhanger.app.photogallery="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/menu_item_search"
+        android:title="@string/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:actionViewClass="android.widget.SearchView"
+        com.sudhirkhanger.app.photogallery:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_item_clear"
+        android:title="@string/clear_search"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        com.sudhirkhanger.app.photogallery:showAsAction="ifRoom" />
+
+</menu>
