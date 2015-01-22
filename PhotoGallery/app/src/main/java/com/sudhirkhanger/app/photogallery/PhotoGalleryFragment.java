@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +33,8 @@ import java.util.ArrayList;
  * github.com/donniezazen
  * 5577 8CDB A059 085D 1D60  807F 8C00 45D9 F5EF C394
  */
-public class PhotoGalleryFragment extends Fragment {
+
+public class PhotoGalleryFragment extends VisibleFragment {
     private static final String TAG = "PhotoGalleryFragment";
 
     GridView mGridView;
