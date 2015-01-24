@@ -10,10 +10,20 @@ import java.util.Date;
  * 5577 8CDB A059 085D 1D60  807F 8C00 45D9 F5EF C394
  */
 public class Run {
+    private long mId;
     private Date mStartDate;
 
     public Run() {
+        mId = -1;
         mStartDate = new Date();
+    }
+
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
     }
 
     public Date getStartDate() {
