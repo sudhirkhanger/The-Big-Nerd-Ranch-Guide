@@ -1,7 +1,9 @@
 package com.sudhirkhanger.app.runtracker;
 
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -15,22 +17,15 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-/**
- * Created by donnie on 1/28/15.
- */
-public class RunListFragment extends ListFragment {
+public class RunListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int REQUEST_NEW_RUN = 0;
-    private RunDatabaseHelper.RunCursor mCursor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        // Query the list of runs
-        mCursor = RunManager.get(getActivity()).queryRuns();
-        // Create an adapter to point at this cursor
-        RunCursorAdapter adapter = new RunCursorAdapter(getActivity(), mCursor);
-        setListAdapter(adapter);
+        // Initialize the loader to load the list of runs
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -54,15 +49,9 @@ public class RunListFragment extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_NEW_RUN == requestCode) {
-            mCursor.requery();
-            ((RunCursorAdapter) getListAdapter()).notifyDataSetChanged();
+            // Restart the loader to get any new run available
+            getLoaderManager().restartLoader(0, null, this);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        mCursor.close();
-        super.onDestroy();
     }
 
     @Override
@@ -71,6 +60,18 @@ public class RunListFragment extends ListFragment {
         Intent i = new Intent(getActivity(), RunActivity.class);
         i.putExtra(RunActivity.EXTRA_RUN_ID, id);
         startActivity(i);
+    }
+
+    private static class RunListCursorLoader extends SQLiteCursorLoader {
+        public RunListCursorLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            // Query the list of runs
+            return RunManager.get(getContext()).queryRuns();
+        }
     }
 
     private static class RunCursorAdapter extends CursorAdapter {
@@ -100,5 +101,25 @@ public class RunListFragment extends ListFragment {
                     context.getString(R.string.cell_text, run.getStartDate());
             startDateTextView.setText(cellText);
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // You only ever load the runs, so assume this is the case
+        return new RunListCursorLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // Create an adapter to point at this cursor
+        RunCursorAdapter adapter =
+                new RunCursorAdapter(getActivity(), (RunDatabaseHelper.RunCursor) cursor);
+        setListAdapter(adapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // Stop using the cursor (via the adapter)
+        setListAdapter(null);
     }
 }
