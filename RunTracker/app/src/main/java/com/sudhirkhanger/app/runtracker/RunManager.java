@@ -62,6 +62,10 @@ public class RunManager {
         }
         return sRunManager;
     }
+    public RunDatabaseHelper.LocationCursor queryLocationsForRun(long runId) {
+        return mHelper.queryLocationsForRun(runId);
+    }
+
 
     private PendingIntent getLocationPendingIntent(boolean shouldCreate) {
         Intent broadcast = new Intent(ACTION_LOCATION);
